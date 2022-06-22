@@ -9,11 +9,11 @@ const reqBody = {
 };
 document.getElementById('payment-message').innerHTML = '<pre>' + JSON.stringify(reqBody, null, 4) + '</pre>';
 
-checkout=()=>{
+checkout = () => {
   initialize();
 
   document.querySelector('#payment-form').addEventListener('submit', handleSubmit);
-}
+};
 
 // Fetches a payment intent and captures the client secret
 let elements;
