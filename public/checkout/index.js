@@ -24,7 +24,7 @@ async function initialize() {
     body: JSON.stringify(reqBody),
   });
   const { id, clientSecret } = await response.json();
-  console.log('response ', id, clientSecret);
+  // console.log('response ', id, clientSecret);
   const appearance = {
     theme: 'stripe',
   };
@@ -32,7 +32,9 @@ async function initialize() {
 
   const paymentElement = elements.create('payment');
   paymentElement.mount('#payment-element');
-  setLoading(false);
+  paymentElement.on('ready', function (event) {
+    setLoading(false);
+  });
   document.querySelector('#submit').classList.remove('hidden');
   document.querySelector('#btn-checkout').classList.add('hidden');
 }

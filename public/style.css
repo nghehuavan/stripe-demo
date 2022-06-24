@@ -9,7 +9,7 @@ body {
   -webkit-font-smoothing: antialiased;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: center;
   height: 100vh;
   width: 100vw;
@@ -19,8 +19,7 @@ form {
   width: 30vw;
   min-width: 500px;
   align-self: center;
-  box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
-    0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1), 0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
   border-radius: 7px;
   padding: 40px;
 }
@@ -72,6 +71,19 @@ button:disabled {
   }
 }
 
+.flex-row {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.docs {
+  width: 30vw;
+  min-width: 1000px;
+  align-self: center;
+  margin: 10px;
+}
 
 .overlay {
   left: 0;
@@ -111,7 +123,7 @@ button:disabled {
 }
 
 @keyframes spin {
-100% {
-  transform: rotate(360deg);
-}
+  100% {
+    transform: rotate(360deg);
+  }
 }

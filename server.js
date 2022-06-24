@@ -52,6 +52,7 @@ app.get('/accounts', async (req, res) => {
   });
 });
 
+// product list from stripe
 app.get('/products', async (req, res) => {
   const products = await stripe.products.list({
     limit: 10,
@@ -62,6 +63,7 @@ app.get('/products', async (req, res) => {
   res.send(JSON.stringify(products));
 });
 
+// price list from stripe
 app.get('/prices', async (req, res) => {
   const { product_id } = req.query;
   const prices = await stripe.prices.list({
@@ -73,6 +75,47 @@ app.get('/prices', async (req, res) => {
 
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(prices));
+});
+
+// create customer
+app.post('/create-customer', async (req, res) => {
+  const { Id, Email, Name } = req.body;
+  // console.log(Id, Email, Name);
+  const customer = await stripe.customers.create({
+    email: Email,
+    name: Name,
+  });
+
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(customer));
+});
+
+// create subscription
+app.post('/create-subscription', async (req, res) => {
+  const { customer_id, price_id } = req.body;
+  try {
+    // Create the subscription. Note we're expanding the Subscription's
+    // latest invoice and that invoice's payment_intent
+    // so we can pass it to the front end to confirm the payment
+    const subscription = await stripe.subscriptions.create({
+      customer: customer_id,
+      items: [
+        {
+          price: price_id,
+        },
+      ],
+      payment_behavior: 'default_incomplete',
+      payment_settings: { save_default_payment_method: 'on_subscription' },
+      expand: ['latest_invoice.payment_intent'],
+    });
+    // console.log(subscription);
+    res.send({
+      id: subscription.id,
+      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+    });
+  } catch (error) {
+    return res.status(400).send({ error: { message: error.message } });
+  }
 });
 
 //*****************************************************************************
