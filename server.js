@@ -86,13 +86,22 @@ app.post('/create-customer', async (req, res) => {
     name: Name,
   });
 
+  if (Id && customer && customer.id) {
+    await update_customer_id(customer.id, Id);
+  }
+
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(customer));
 });
 
+update_customer_id = async (customer_id, account_id) => {
+  var params = [customer_id, account_id];
+  db.run('UPDATE Account SET customer_id=? WHERE Id=?', params, function (err, rows) {});
+};
+
 // create subscription
 app.post('/create-subscription', async (req, res) => {
-  const { customer_id, price_id } = req.body;
+  const { customer_id, price_id, account_id } = req.body;
   try {
     // Create the subscription. Note we're expanding the Subscription's
     // latest invoice and that invoice's payment_intent
@@ -109,6 +118,10 @@ app.post('/create-subscription', async (req, res) => {
       expand: ['latest_invoice.payment_intent'],
     });
     // console.log(subscription);
+    if (account_id && subscription && subscription.id) {
+      await update_subscription_id(subscription.id, 'incomplete', account_id);
+    }
+
     res.send({
       id: subscription.id,
       clientSecret: subscription.latest_invoice.payment_intent.client_secret,
@@ -117,6 +130,11 @@ app.post('/create-subscription', async (req, res) => {
     return res.status(400).send({ error: { message: error.message } });
   }
 });
+
+update_subscription_id = async (subscription_id, subscription_status, account_id) => {
+  var params = [subscription_id, subscription_status, account_id];
+  db.run('UPDATE Account SET subscription_id=?, subscription_status=? WHERE Id=?', params, function (err, rows) {});
+};
 
 //*****************************************************************************
 //================================== WEBHOOK ==================================

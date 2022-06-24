@@ -23,7 +23,7 @@ subscription = async () => {
   }
 
   if (!account.subscription_id) {
-    const subscription = await create_subscription(account.customer_id, price.id);
+    const subscription = await create_subscription(account.customer_id, price.id, account.Id);
     account.subscription_id = subscription.id;
     console.log('subscription', subscription);
     await render_payment_element(subscription);
@@ -60,11 +60,12 @@ async function create_customer(account) {
   return await resp.json();
 }
 
-async function create_subscription(customer_id, price_id) {
+async function create_subscription(customer_id, price_id, account_id) {
   const resp = await fetch('/create-subscription', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+      account_id,
       customer_id,
       price_id,
     }),
