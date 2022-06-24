@@ -25,12 +25,29 @@
   <br />
   <form id="payment-form">
     <div class="form-group row">
-      <label for="account" class="col-sm-2 col-form-label">account</label>
+      <label for="accounts" class="col-sm-2 col-form-label">accounts</label>
       <div class="col-sm-10">
-        <select id="account" class="form-control">
+        <select id="accounts" class="form-control">
         </select>
       </div>
     </div>
+
+    <div class="form-group row">
+      <label for="products" class="col-sm-2 col-form-label">products</label>
+      <div class="col-sm-10">
+        <select id="products" class="form-control" onchange="listPrices()">
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="prices" class="col-sm-2 col-form-label">prices</label>
+      <div class="col-sm-10">
+        <select id="prices" class="form-control">
+        </select>
+      </div>
+    </div>
+
     <button id="btn-checkout" onclick="javascript: window.location.href='/subscription'" type="button">
       <span id="button-text">Subscription</span>
     </button>

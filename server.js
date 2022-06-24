@@ -45,11 +45,34 @@ app.post('/create-payment-intent', async (req, res) => {
 var db = new sqlite3.Database('./database.sqlite');
 
 // account list from database
-app.get('/accounts', function (request, response) {
+app.get('/accounts', async (req, res) => {
   db.all('SELECT * FROM Account', function (err, rows, fields) {
-    response.setHeader('Content-Type', 'application/json');
-    response.send(JSON.stringify(rows));
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(rows));
   });
+});
+
+app.get('/products', async (req, res) => {
+  const products = await stripe.products.list({
+    limit: 10,
+    active: true,
+  });
+
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(products));
+});
+
+app.get('/prices', async (req, res) => {
+  const { product_id } = req.query;
+  const prices = await stripe.prices.list({
+    limit: 10,
+    type: 'recurring',
+    active: true,
+    product: product_id,
+  });
+
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(prices));
 });
 
 //*****************************************************************************
