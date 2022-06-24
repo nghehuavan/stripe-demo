@@ -1,4 +1,4 @@
-const stripe = Stripe(stripe_public_key);
+const stripe = Stripe(STRIPE_PUBLIC_KEY);
 
 subscription = async () => {
   let accounts_idx = document.getElementById('accounts').selectedIndex - 1;
@@ -22,14 +22,10 @@ subscription = async () => {
     console.log('customer', customer);
   }
 
-  if (!account.subscription_id) {
-    const subscription = await create_subscription(account.customer_id, price.id, account.Id);
-    account.subscription_id = subscription.id;
-    console.log('subscription', subscription);
-    await render_payment_element(subscription);
-  } else {
-    setLoading(false);
-  }
+  const subscription = await create_subscription(account.customer_id, price.id, account.Id);
+  account.subscription_id = subscription.id;
+  console.log('subscription', subscription);
+  await render_payment_element(subscription);
 };
 
 async function render_payment_element(subscription) {
@@ -74,7 +70,6 @@ async function create_subscription(customer_id, price_id, account_id) {
 }
 
 async function handleSubmit(e) {
-  console.log('sssss');
   e.preventDefault();
   setLoading(true);
 

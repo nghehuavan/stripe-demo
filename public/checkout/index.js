@@ -1,4 +1,4 @@
-const stripe = Stripe(stripe_public_key);
+const stripe = Stripe(STRIPE_PUBLIC_KEY);
 
 const reqBody = {
   order_id: 6789,

@@ -30,7 +30,7 @@
     // Fetches the payment intent status after payment submission
     async function checkStatus() {
       setLoading(true);
-      const stripe = Stripe(stripe_public_key);
+      const stripe = Stripe(STRIPE_PUBLIC_KEY);
       const clientSecret = new URLSearchParams(window.location.search).get('payment_intent_client_secret');
 
       if (!clientSecret) {

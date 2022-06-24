@@ -1,8 +1,8 @@
 // This is your test secrect API key.
-const stripe_secrect_key = 'sk_test_51HNUusFM58psI0fTpbMcoGBgYuYVjMEYK4FPadd5KWpcVvlr4I2Xk985qHALWc7JFlS2xwPaUPLSvnBOmmnUcci800NhWse0cX';
-
-// This is your test webhook signing secret.
-const stripe_webhook_signing_secret = '';
+const STRIPE_SECRECT_KEY = 'sk_test_51HNUusFM58psI0fTpbMcoGBgYuYVjMEYK4FPadd5KWpcVvlr4I2Xk985qHALWc7JFlS2xwPaUPLSvnBOmmnUcci800NhWse0cX';
+// This is your test Stripe CLI webhook signing secret.
+const STRIPE_WEBHOOK_SIGNING_SECRET = 'whsec_ab1668074eab3c131ce0cb0c9f4bb6ef76e3163a1e044278d019b8016ba5705c';
+const WEBHOOK_PATH = '/webhook';
 
 var sqlite3 = require('sqlite3').verbose();
 const express = require('express');
@@ -10,11 +10,17 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 
-// This is your test secret API key.
-const stripe = require('stripe')(stripe_secrect_key);
+// middleware use raw req.body for /webhook, JSON req.body for other path
+app.use((req, res, next) => {
+  if (req.originalUrl === WEBHOOK_PATH) {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 
+const stripe = require('stripe')(STRIPE_SECRECT_KEY);
 app.use(express.static('public'));
-app.use(express.json());
 
 //*****************************************************************************
 //=============================== CHECK-OUT ===================================
@@ -139,5 +145,35 @@ update_subscription_id = async (subscription_id, subscription_status, account_id
 //*****************************************************************************
 //================================== WEBHOOK ==================================
 //*****************************************************************************
+app.post(WEBHOOK_PATH, express.raw({ type: 'application/json' }), async (req, resp) => {
+  const sig = req.headers['stripe-signature'];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, STRIPE_WEBHOOK_SIGNING_SECRET);
+  } catch (err) {
+    console.log(`Webhook signature verification failed.`);
+    resp.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+
+  const dataObject = event.data.object;
+  switch (event.type) {
+    case 'customer.subscription.created':
+    case 'customer.subscription.updated':
+    case 'customer.subscription.deleted':
+      var { customer: customer_id, id: subscription_id, status: subscription_status } = dataObject;
+      // console.log(customer_id, subscription_id, subscription_status);
+      await update_subscription_status(subscription_status, subscription_id, customer_id);
+      break;
+    default:
+    // Unexpected event type
+  }
+  resp.sendStatus(200);
+});
+
+update_subscription_status = async (subscription_status, subscription_id, customer_id) => {
+  var params = [subscription_status, subscription_id, customer_id];
+  db.run('UPDATE Account SET subscription_status=? WHERE subscription_id=? AND customer_id=?', params, function (err, rows) {});
+};
 
 app.listen(8080, () => console.log('Node server listening on [http://localhost:8080]'));
