@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Glamo Stripe Demo</title>
+  <meta name="description" content="A demo of a subscription on Stripe" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/config.js" defer></script>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<body>
+  <div>
+    <pre>
+    [Local test webhook document https://stripe.com/docs/webhooks/test]
+    1. Run webhook.bat and complete authentication on browser for forward webhook to localhost:8080/webhook
+    2. Copy [webhook_signing_secret] from cmd => replace in server.js
+    3. Restart node server by [Ctrl + C] => [npm start]
+  </pre>
+  </div>
+  <br />
+  <form id="payment-form">
+    <div class="form-group row">
+      <label for="account" class="col-sm-2 col-form-label">account</label>
+      <div class="col-sm-10">
+        <select id="account" class="form-control">
+        </select>
+      </div>
+    </div>
+    <button id="btn-checkout" onclick="javascript: window.location.href='/subscription'" type="button">
+      <span id="button-text">Subscription</span>
+    </button>
+  </form>
+  <script src="index.js" defer></script>
+  <div id="loading" class="overlay hidden">
+    <div class="overlay__inner">
+      <div class="overlay__content"><span class="spinner"></span></div>
+    </div>
+  </div>
+</body>
+
+</html>

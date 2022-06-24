@@ -6,31 +6,19 @@
   <title>Glamo Stripe Demo</title>
   <meta name="description" content="A demo of a payment on Stripe" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://js.stripe.com/v3/"></script>
+  <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
-
-  <!-- Display a payment form -->
   <form id="payment-form">
-    <div id="check-out">
-      <div id="payment-message"></div>
-      <button id="btn-checkout" onclick="checkout()" type="button">
-        <div class="spinner hidden" id="spinner"></div>
-        <span id="button-text">CheckOut</span>
-      </button>
-    </div>
-
-    <div id="payment-element">
-      <!--Stripe.js injects the Payment Element-->
-    </div>
-    <button id="submit" class="hidden">
-      <div class="spinner hidden" id="spinner"></div>
-      <span id="button-text1" >Pay now</span>
+    <button id="btn-checkout" onclick="javascript: window.location.href='/checkout'" type="button">
+      <span id="button-text">Demo CheckOut</span>
+    </button>
+    <br>
+    <button id="btn-checkout" onclick="javascript: window.location.href='/subscription'" type="button">
+      <span id="button-text">Demo Subscription</span>
     </button>
   </form>
-  <script src="index.js" defer></script>
 </body>
 
 </html>
