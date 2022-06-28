@@ -78,6 +78,13 @@ button:disabled {
   gap: 12px;
 }
 
+.flex-col {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .docs {
   width: 30vw;
   min-width: 1000px;
