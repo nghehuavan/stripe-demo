@@ -85,6 +85,10 @@ button:disabled {
   gap: 12px;
 }
 
+.flex-60{
+  width: 60vw;
+}
+
 .docs {
   width: 30vw;
   min-width: 1000px;
