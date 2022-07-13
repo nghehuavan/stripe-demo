@@ -20,20 +20,7 @@
         <label for="meetingJson" class="col-sm-2 col-form-label">meetingJson</label>
         <div class="col-sm-10">
           <textarea id="meetingJson" class="form-control" rows="10" cols="400">
-            {
-              "ExternalMeetingId": "56ca098c-39a4-4240-b8c6-d4a5263cb59a",
-              "MediaRegion": "ap-northeast-1",
-              "MeetingId": "f8ee9f13-0886-4c14-92d9-52b513300706",
-              "MediaPlacement": {
-                "AudioFallbackUrl": "wss://haxrp.m2.an1.app.chime.aws:443/calls/f8ee9f13-0886-4c14-92d9-52b513300706",
-                "AudioHostUrl": "38ff058aa2a935428e22788fe76ada58.k.m2.an1.app.chime.aws:3478",
-                "ScreenDataUrl": "wss://bitpw.m2.an1.app.chime.aws:443/v2/screen/f8ee9f13-0886-4c14-92d9-52b513300706",
-                "ScreenSharingUrl": "wss://bitpw.m2.an1.app.chime.aws:443/v2/screen/f8ee9f13-0886-4c14-92d9-52b513300706",
-                "ScreenViewingUrl": "wss://bitpw.m2.an1.app.chime.aws:443/ws/connect?passcode=null&viewer_uuid=null&X-BitHub-Call-Id=f8ee9f13-0886-4c14-92d9-52b513300706",
-                "SignalingUrl": "wss://signal.m2.an1.app.chime.aws/control/f8ee9f13-0886-4c14-92d9-52b513300706",
-                "TurnControlUrl": "https://ccp.cp.ue1.app.chime.aws/v2/turn_sessions"
-              }
-            }
+
           </textarea>
           </select>
         </div>
@@ -43,11 +30,7 @@
         <label for="attendeeJson" class="col-sm-2 col-form-label">attendeeJson</label>
         <div class="col-sm-10">
           <textarea id="attendeeJson" class="form-control" rows="8" cols="400">
-            {
-              "AttendeeId": "857ecb77-e2bf-6c02-fd84-e0acb3afbcc9",
-              "ExternalUserId": "cba7000d-8b00-a90c-32fd-23ee6c056611",
-              "JoinToken": "ODU3ZWNiNzctZTJiZi02YzAyLWZkODQtZTBhY2IzYWZiY2M5OjU1ODdkNmE3LWQ3Y2UtNDZkYi1iMDcyLWQwZTg3Y2RmMGRjMw"
-            }
+
           </textarea>
           </select>
         </div>
@@ -118,6 +101,18 @@
       <div class="overlay__content"><span class="spinner"></span></div>
     </div>
   </div>
+  <script type="text/javascript">
+    const getJson = async () => {
+      let response = await fetch('https://3gvk7.mocklab.io/meetting');
+      const meeeting = await response.json();
+      document.getElementById('meetingJson').value = JSON.stringify(meeeting);
+
+      response = await fetch('https://3gvk7.mocklab.io/attendee');
+      const attendee = await response.json();
+      document.getElementById('attendeeJson').value = JSON.stringify(attendee);
+    }
+    getJson();
+  </script>
 </body>
 
 </html>
