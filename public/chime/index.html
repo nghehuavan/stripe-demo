@@ -103,13 +103,10 @@
   </div>
   <script type="text/javascript">
     const getJson = async () => {
-      let response = await fetch('https://3gvk7.mocklab.io/meetting');
-      const meeeting = await response.json();
-      document.getElementById('meetingJson').value = JSON.stringify(meeeting);
-
-      response = await fetch('https://3gvk7.mocklab.io/attendee');
-      const attendee = await response.json();
-      document.getElementById('attendeeJson').value = JSON.stringify(attendee);
+      let res = await fetch('https://973d6.mocklab.io/thing/meet');
+      const response = await res.json();
+      document.getElementById('meetingJson').value = JSON.stringify(response.meeting);
+      document.getElementById('attendeeJson').value = JSON.stringify(response.attendee);
     }
     getJson();
   </script>
