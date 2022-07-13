@@ -85,7 +85,7 @@
               </div>
             </td>
             <td>
-              <div id="video-tile-other"></div>
+              <div id="video-tile-other" style="max-height: 400px"></div>
             </td>
           </tr>
         </table>
@@ -109,6 +109,20 @@
       document.getElementById('attendeeJson').value = response.attendee;
     }
     getJson();
+
+    // use onplaying on html <video> tage
+    const handleVideoLandscape = (e) => {
+      console.log(e);
+      var width = e.target.videoWidth;
+      var height = e.target.videoHeight;
+      const isPortrait = height > width;
+      console.log('width, height, isPortrait', width, height, isPortrait);
+      if (isPortrait) {
+        e.target.setAttribute('style', 'transform: rotate(90deg)');
+        e.target.setAttribute('width', e.target.parentElement.clientHeight.toString());
+        e.target.setAttribute('height', e.target.parentElement.clientWidth.toString());
+      }
+    };
   </script>
 </body>
 
