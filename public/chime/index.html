@@ -105,8 +105,8 @@
     const getJson = async () => {
       let res = await fetch('https://973d6.mocklab.io/thing/meet');
       const response = await res.json();
-      document.getElementById('meetingJson').value = JSON.stringify(response.meeting);
-      document.getElementById('attendeeJson').value = JSON.stringify(response.attendee);
+      document.getElementById('meetingJson').value = response.meeting;
+      document.getElementById('attendeeJson').value = response.attendee;
     }
     getJson();
   </script>
