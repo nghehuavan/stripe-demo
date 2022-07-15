@@ -1,12 +1,6 @@
-# Accept a Payment
+## Run live [https://nghehuavan-stripe.cyclic.app](https://nghehuavan-stripe.cyclic.app)
 
-Build a simple checkout form to collect payment details. Included are some basic
-build and run scripts you can use to start up the application.
-
-# Amazon chime
-Build simple Amazon chime join meetting by json
-
-## Run live on sanbox.io
+## Run on sanbox.io
 3. Go to [https://githubbox.com/nghehuavan/stripe-demo](https://githubbox.com/nghehuavan/stripe-demo)
 
 ## Running the sample 
