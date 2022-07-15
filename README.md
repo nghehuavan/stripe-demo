@@ -19,9 +19,15 @@ npm install
 
 2. Run the server
 
-~~~
-npm start
-~~~
+```
+npm run dev
+```
+
+or
+
+```
+yarn dev
+```
 
 3. Go to [http://localhost:8080](http://localhost:8080)
 
